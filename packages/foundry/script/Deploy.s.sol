@@ -48,11 +48,15 @@ contract DeployScript is ScaffoldETHDeploy {
 
         PLAYLIST playlist = new PLAYLIST(deployerPubKey);
 
+        vm.stopBroadcast();
+
         address[] memory admins = new address[](1);
         admins[0] = s_artist;
 
         // address aggregator = 0x694AA1769357215DE4FAC081bf1f309aDC325306; //sepolia
         address aggregator = 0x4aDC67696bA383F43DD60A9e78F2C97Fbbfc7cb1; //base sepolia
+
+        vm.startBroadcast(deployerPrivateKey);
 
         ALBUM album = new ALBUM(
             address(playlist),
@@ -65,6 +69,8 @@ contract DeployScript is ScaffoldETHDeploy {
             aggregator,
             600
         );
+
+        vm.stopBroadcast();
 
         address[] memory songAdmins = new address[](1);
         songAdmins[0] = address(album);
@@ -399,6 +405,7 @@ contract DeployScript is ScaffoldETHDeploy {
         songs[18] = address(song19);
         songs[19] = address(song20);
         songs[20] = address(song21);
+
         songs[21] = address(song22);
         songs[22] = address(song23);
         songs[23] = address(song24);
@@ -407,7 +414,11 @@ contract DeployScript is ScaffoldETHDeploy {
         songs[26] = address(song27);
         songs[27] = address(song28);
 
+        vm.startBroadcast(deployerPrivateKey);
+
         playlist.ADD_SONGS_BATCH(songs);
+
+        vm.stopBroadcast();
 
         // playlist.ADD_SONG(address(song1));
         // playlist.ADD_SONG(address(song2));
@@ -437,6 +448,8 @@ contract DeployScript is ScaffoldETHDeploy {
         // playlist.ADD_SONG(address(song26));
         // playlist.ADD_SONG(address(song27));
         // playlist.ADD_SONG(address(song28));
+
+        vm.startBroadcast(deployerPrivateKey);
         playlist.transferOwnership(s_artist);
 
         // AARCAUDIO_VOLUME_1 yourContract = new AARCAUDIO_VOLUME_1();
